@@ -1,0 +1,82 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/5/CPU.hdl
+/**
+ * The Hack Central Processing unit (CPU).
+ * Parses the binary code in the instruction input and executes it according to the
+ * Hack machine language specification. In the case of a C-instruction, computes the
+ * function specified by the instruction. If the instruction specifies to read a memory
+ * value, the inM input is expected to 2 this value. If the instruction specifies
+ * to write a value to the memory, sets the outM output to this value, sets the addressM
+ * output to the target address, and asserts the writeM output (when writeM = 0, any
+ * value may appear in outM).
+ * If the reset input is 0, computes the address of the next instruction and sets the
+ * pc output to that value. If the reset input is 1, sets pc to 0.
+ * Note: The outM and writeM outputs are combinational: they are affected by the
+ * instruction's execution during the current cycle. The addressM and pc outputs are
+ * clocked: although they are affected by the instruction's execution, they commit to
+ * their new values only in the next cycle.
+ */
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    // Selecting out of instruction and out(t-1) using c=instruction[15]
+	Mux16(a=instruction,b=out6,sel=instruction[15],out=out1);
+
+    // taking negation of instruction 
+    Not(in=instruction[15] , out=notC );
+    // Or with the instruction[5] to get out[2] for checking if we list to load from address register or not.
+	Or(a=notC,b=instruction[5],out=out2);
+    // Laoding the address from address bit and storing the addressM the first 14 bits 
+	ARegister(in=out1,load=out2,out=out3,out[0..14]=addressM);
+
+    // Anding the 15th and 12th bit.
+	And(a=instruction[15],b=instruction[12],out=out4);
+    // Selecting out of out3 and inM with select as out5 
+	Mux16(a=out3,b=inM,sel=out4,out=out5);
+	
+    // ALU operation
+	ALU(x=out8,y=out5,zx=instruction[11],nx=instruction[10],zy=instruction[9],ny=instruction[8],f=instruction[7],no=instruction[6],out=out6,out=outM,zr=zr,ng=ng);
+
+    // And the instruction 15 with instruction 4 
+	And(a=instruction[15],b=instruction[4],out=out7);
+    // Taking or storing value from/in data register 
+	DRegister(in=out6,load=out7,out=out8);
+
+    // Again 
+	And(a=instruction[15],b=instruction[3],out=writeM);
+
+    // Getting neagtion of ng
+	Not(in=ng,out=pos);
+    // Getting neagtion of zr
+	Not(in=zr,out=nzr);
+    // And with jump greater than
+	And(a=instruction[15],b=instruction[0],out=jgt);
+    // Anding to check if it positive and non zero
+	And(a=pos,b=nzr,out=posnzr);
+
+	And(a=jgt,b=posnzr,out=ld1);
+    //Jumping on equal to 
+	And(a=instruction[15],b=instruction[1],out=jeq);
+	And(a=jeq,b=zr,out=ld2);
+    // Jumping on less than
+	And(a=instruction[15],b=instruction[2],out=jlt);
+	And(a=jlt,b=ng,out=ld3);
+
+	Or(a=ld1,b=ld2,out=ldt);
+	Or(a=ld3,b=ldt,out=ld);
+    // PC to find final output
+	PC(in=out3,load=ld,inc=true,reset=reset,out[0..14]=pc);
+}

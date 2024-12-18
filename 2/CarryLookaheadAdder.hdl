@@ -1,0 +1,52 @@
+// Carry Lookahead Adder implementation
+CHIP CarryLookaheadAdder {
+    IN a[4], b[4], c;
+    OUT sum[4], cout;
+
+    PARTS:
+    //write your code here
+    
+    // c(i+1)= g(i)+(c(i).p(i));
+    // g(i)=a(i).b(i);
+    // p(i)=a(i) xor b(i)
+    // sum(i)=p(i) xor c(i)
+
+
+    // Calculating XOR
+    Xor(a=a[0],b=b[0],out=p0);
+    Xor(a=a[1],b=b[1],out=p1);
+    Xor(a=a[2],b=b[2],out=p2);
+    Xor(a=a[3],b=b[3],out=p3);
+
+    // Calculating And
+    And(a=a[0],b=b[0],out=g0);
+    And(a=a[1],b=b[1],out=g1);
+    And(a=a[2],b=b[2],out=g2);
+    And(a=a[3],b=b[3],out=g3);
+
+    // Calculating c(i+1) for all i
+
+    //c1
+    And(a=p0,b=c,out=temp1);
+    Or(a=g0,b=temp1,out=c1);
+
+    //c2
+    And(a=p1,b=c1,out=temp2);
+    Or(a=g1,b=temp2,out=c2);
+
+    //c3
+    And(a=p2,b=c2,out=temp3);
+    Or(a=g2,b=temp3,out=c3);
+
+    //cout
+    And(a=p3,b=c3,out=temp4);
+    Or(a=g3,b=temp4,out=cout);
+
+    //Calculating Sums
+    Xor(a=p0,b=c,out=sum[0]);
+    Xor(a=p1,b=c1,out=sum[1]);
+    Xor(a=p2,b=c2,out=sum[2]);
+    Xor(a=p3,b=c3,out=sum[3]);
+    
+}
+

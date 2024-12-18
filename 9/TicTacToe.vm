@@ -1,0 +1,482 @@
+function TicTacToe.new 0
+    push constant 3
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 9
+    call Array.new 1
+    pop this 0
+    push pointer 0
+    call TicTacToe.initializeBoard 1
+    pop temp 0
+    push constant 0
+    pop this 1
+    push constant 0
+    pop this 2
+    push pointer 0
+    return
+function TicTacToe.initializeBoard 1
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+label TicTacToe_0
+    push local 0
+    push constant 9
+    lt
+    not
+    if-goto TicTacToe_1
+    push local 0
+    push this 0
+    add
+    push constant 1
+    neg
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto TicTacToe_0
+label TicTacToe_1
+    push constant 0
+    return
+function TicTacToe.makeMove 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push constant 0
+    lt
+    push argument 1
+    push constant 8
+    gt
+    or
+    not
+    if-goto TicTacToe_3
+    push constant 0
+    return
+    goto TicTacToe_2
+label TicTacToe_3
+label TicTacToe_2
+    push argument 1
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    not
+    if-goto TicTacToe_5
+    push constant 0
+    return
+    goto TicTacToe_4
+label TicTacToe_5
+label TicTacToe_4
+    push argument 1
+    push this 0
+    add
+    push this 1
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push pointer 0
+    call TicTacToe.checkWin 1
+    pop this 2
+    push this 2
+    not
+    not
+    if-goto TicTacToe_7
+    push pointer 0
+    call TicTacToe.switchPlayer 1
+    pop temp 0
+    goto TicTacToe_6
+label TicTacToe_7
+label TicTacToe_6
+    push constant 1
+    neg
+    return
+function TicTacToe.checkWin 1
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+label TicTacToe_8
+    push local 0
+    push constant 9
+    lt
+    not
+    if-goto TicTacToe_9
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push local 0
+    push constant 1
+    add
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push local 0
+    push constant 2
+    add
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    not
+    if-goto TicTacToe_11
+    push constant 1
+    neg
+    return
+    goto TicTacToe_10
+label TicTacToe_11
+label TicTacToe_10
+    push local 0
+    push constant 3
+    add
+    pop local 0
+    goto TicTacToe_8
+label TicTacToe_9
+    push constant 0
+    pop local 0
+label TicTacToe_12
+    push local 0
+    push constant 3
+    lt
+    not
+    if-goto TicTacToe_13
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push local 0
+    push constant 3
+    add
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push local 0
+    push constant 6
+    add
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    not
+    if-goto TicTacToe_15
+    push constant 1
+    neg
+    return
+    goto TicTacToe_14
+label TicTacToe_15
+label TicTacToe_14
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto TicTacToe_12
+label TicTacToe_13
+    push constant 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    push constant 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 4
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    push constant 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 8
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    not
+    if-goto TicTacToe_17
+    push constant 1
+    neg
+    return
+    goto TicTacToe_16
+label TicTacToe_17
+label TicTacToe_16
+    push constant 2
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    push constant 2
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 4
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    push constant 2
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 6
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    eq
+    and
+    not
+    if-goto TicTacToe_19
+    push constant 1
+    neg
+    return
+    goto TicTacToe_18
+label TicTacToe_19
+label TicTacToe_18
+    push constant 0
+    return
+function TicTacToe.isBoardFull 1
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+label TicTacToe_20
+    push local 0
+    push constant 9
+    lt
+    not
+    if-goto TicTacToe_21
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    if-goto TicTacToe_23
+    push constant 0
+    return
+    goto TicTacToe_22
+label TicTacToe_23
+label TicTacToe_22
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto TicTacToe_20
+label TicTacToe_21
+    push constant 1
+    neg
+    return
+function TicTacToe.switchPlayer 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    push constant 0
+    eq
+    not
+    if-goto TicTacToe_25
+    push constant 1
+    pop this 1
+    goto TicTacToe_24
+label TicTacToe_25
+    push constant 0
+    pop this 1
+label TicTacToe_24
+    push constant 0
+    return
+function TicTacToe.printBoard 1
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+    call Output.println 0
+    pop temp 0
+label TicTacToe_26
+    push local 0
+    push constant 9
+    lt
+    not
+    if-goto TicTacToe_27
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    neg
+    eq
+    not
+    if-goto TicTacToe_29
+    push constant 1
+    call String.new 1
+    push constant 45
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    goto TicTacToe_28
+label TicTacToe_29
+label TicTacToe_28
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 0
+    eq
+    not
+    if-goto TicTacToe_31
+    push constant 1
+    call String.new 1
+    push constant 88
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    goto TicTacToe_30
+label TicTacToe_31
+label TicTacToe_30
+    push local 0
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    eq
+    not
+    if-goto TicTacToe_33
+    push constant 1
+    call String.new 1
+    push constant 79
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    goto TicTacToe_32
+label TicTacToe_33
+label TicTacToe_32
+    push local 0
+    push constant 2
+    eq
+    push local 0
+    push constant 5
+    eq
+    or
+    push local 0
+    push constant 8
+    eq
+    or
+    not
+    if-goto TicTacToe_35
+    call Output.println 0
+    pop temp 0
+    goto TicTacToe_34
+label TicTacToe_35
+    push constant 3
+    call String.new 1
+    push constant 32
+    call String.appendChar 2
+    push constant 124
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+label TicTacToe_34
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto TicTacToe_26
+label TicTacToe_27
+    call Output.println 0
+    pop temp 0
+    push constant 0
+    return
+function TicTacToe.getCurrentPlayer 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function TicTacToe.isGameWon 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    return
+function TicTacToe.dispose 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

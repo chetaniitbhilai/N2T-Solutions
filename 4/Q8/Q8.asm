@@ -1,0 +1,35 @@
+// Q8
+
+@i
+M=0
+
+(LOOP)
+
+@KBD
+D=M
+@0
+M=D
+// CHECKING KBD INPUT
+@TRUE
+D;JNE
+//CODE TO MAKE SCREEN WHITE
+@i
+D=M
+@i
+M=M-1
+@SCREEN
+A=D+A
+M=0
+@LOOP
+0;JMP
+(TRUE)
+//CODE TO MAKE SCREEN BLACK
+@i
+D=M
+@i
+M=M+1
+@SCREEN
+A=D+A
+M=-1
+@LOOP
+0;JMP

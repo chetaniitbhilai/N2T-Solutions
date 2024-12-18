@@ -1,0 +1,20 @@
+ CHIP Encoder8to3 {
+    IN in[8];
+    OUT out[3];
+
+    PARTS:
+    //write your own code here 
+    
+    Or(a=in[6], b=in[5], out=out1 );
+    Or(a=in[7], b=out1, out=out2 );
+    Or(a=in[4], b=out2, out=out[2] );
+    
+    Or(a=in[2], b=in[3], out=out4 );
+    Or(a=in[6], b=out4, out=out5 );
+    Or(a=in[7], b=out5, out=out[1] );
+    
+    Or(a=in[1], b=in[3], out=out6 );
+    Or(a=in[5], b=out6, out=out7 );
+    Or(a=in[7], b=out7, out=out[0] );
+
+}

@@ -1,0 +1,69 @@
+class Main {
+    function void main() {
+        var TicTacToe game;
+        var boolean validMove;
+        var int position;
+        var String message;
+        var char input;
+        
+        // Create a new game instance
+        let game = TicTacToe.new();
+        
+        // Game loop
+        while (~(game.isGameWon()) & ~(game.isBoardFull())) {
+            // Clear the screen and print the board
+            do Screen.clearScreen();
+            do Output.moveCursor(0,0);
+            do game.printBoard();
+            
+            // Print whose turn it is
+            if (game.getCurrentPlayer() = 0) {
+                let message = "Player X's turn (0-8): ";
+            }
+            else {
+                let message = "Player O's turn (0-8): ";
+            }
+            do Output.printString(message);
+            
+            // Get player input (0-8)
+            let input = Keyboard.readChar();
+            
+            // Convert char to int (ASCII '0' = 48)
+            let position = input - 48;
+            
+            // Make move
+            let validMove = game.makeMove(position);
+            
+            // If move was invalid, show error message
+            if (~validMove) {
+                do Output.println();
+                do Output.printString("Invalid move! Press any key to try again.");
+                let input = Keyboard.readChar();
+            }
+        }
+        
+        // Game over - display final board and result
+        do Screen.clearScreen();
+        do Output.moveCursor(0,0);
+        do game.printBoard();
+        do Output.println();
+        
+        if (game.isGameWon()) {
+            // Previous player won (since we switched after the winning move)
+            if (game.getCurrentPlayer() = 0) {
+                do Output.printString("Player X wins!");
+            }
+            else {
+                do Output.printString("Player 0 wins!");
+            }
+        }
+        else {
+            do Output.printString("Game is a draw!");
+        }
+        
+        // Clean up
+        do game.dispose();
+        
+        return;
+    }
+}
